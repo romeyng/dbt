@@ -16,21 +16,51 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+
 public class MainActivity extends AppCompatActivity {
+    List<String> carbs = Arrays.asList("Rice","Potatoes","Pasta","Breadfruit");
+    List<String> protein = Arrays.asList("Beef","Fish","Chicken","Saltfish");
+    List<String> vegetables = Arrays.asList("Lettuce","Tomatoes","Broccoli","Cauliflower", "Carrot","Olive");
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Button button = (Button) findViewById(R.id.click1);
-        Button didit = (Button) findViewById(R.id.didit);
+        Button getPlate = (Button) findViewById(R.id.getPlate);
 
+
+        getPlate.setOnClickListener(this::getPlate);
         View canvas = (View)findViewById(R.id.canvas);
         canvas.setOnClickListener(this::dismissKb);
-        button.setOnClickListener(this::click);
-        didit.setOnClickListener(this::congrats);
+        rollFood();
 
 
+
+
+
+    }
+
+    private void rollFood(){
+        TextView proteinView = (TextView) findViewById(R.id.protein);
+        TextView carbView = (TextView) findViewById(R.id.carbs);
+        TextView vegetableView = (TextView) findViewById(R.id.vegetables);
+        Random rand = new Random();
+        String randomProtein = protein.get(rand.nextInt(protein.size()));
+        String randomCarb = carbs.get(rand.nextInt(carbs.size()));
+        String randomVegetable = vegetables.get(rand.nextInt(vegetables.size()));
+        proteinView.setText(randomProtein);
+        carbView.setText(randomCarb);
+        vegetableView.setText(randomVegetable);
+
+    }
+    private void makeSalad(){
 
     }
 
@@ -52,11 +82,12 @@ public class MainActivity extends AppCompatActivity {
         imm.hideSoftInputFromWindow(view.getWindowToken(),0);
     }
 
-    public void click(View view){
+    public void getPlate(View view){
         EditText name = (EditText) findViewById(R.id.editTextName);
         Toast.makeText(MainActivity.this, String.format("Hi there %s",name.getText()),Toast.LENGTH_LONG).show();
         ImageView image = (ImageView) findViewById(R.id.imageView);
         image.setImageResource(R.drawable.plate);
+        rollFood();
 
     }
 }
